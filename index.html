@@ -36,8 +36,8 @@
 
 <div class="container">
     <div class="header">
-        <h1>TN 10th Science Exam Portal</h1>
-        <button id="portalToggleBtn" class="btn btn-secondary" onclick="togglePortal()">Switch to Admin Portal</button>
+        <h1>TN 10th Science Exam</h1>
+        <button id="portalToggleBtn" class="btn btn-secondary" onclick="togglePortal()">Admin Portal</button>
     </div>
 
     <!-- STUDENT REGISTRATION SECTION -->
@@ -53,7 +53,7 @@
             <input type="date" id="testDate">
         </div>
         <div class="form-group">
-            <label>Select Test Day Set (Optional, Defaults to Day 1):</label>
+            <label>Select Test Day Set:</label>
             <div class="day-grid" id="dayGrid">
                 <!-- Day 1 to Day 10 buttons -->
             </div>
@@ -125,7 +125,6 @@
 </div>
 
 <script>
-    // Sample 20 Question Data Bank (TNSERT Syllabus)
     const questionsData = [
         { id: 1, text: "According to Newton’s second law of motion, force is equal to:", options: ["Rate of change of momentum", "Rate of change of velocity", "Mass multiplied by velocity", "Product of displacement and acceleration"], correct: 0 },
         { id: 2, text: "A body of mass 5 kg is moving with an acceleration of 2 m/s². The force acting on it is:", options: ["2.5 N", "5 N", "10 N", "20 N"], correct: 2 },
@@ -153,10 +152,7 @@
     let currentStudent = {};
     let isLeaderboardPublished = false;
 
-    // Initialize Day Buttons
     window.onload = function() {
-        // Set today's date automatically
-        document.getElementById('testDate').valueToDate = new Date();
         document.getElementById('testDate').value = new Date().toISOString().split('T')[0];
 
         const dayGrid = document.getElementById('dayGrid');
@@ -179,7 +175,7 @@
         const date = document.getElementById('testDate').value;
 
         if (!name) {
-            alert('Please enter your name to proceed.');
+            alert('Please enter your name.');
             return;
         }
         if (!date) {
@@ -211,7 +207,8 @@
                     <label class="option-label">
                         <input type="radio" name="q_${q.id}" value="${oIndex}" onchange="recordAnswer(${q.id}, ${oIndex})">
                         ${String.fromCharCode(65 + oIndex)}. ${opt}
-                    </label>;
+                    </label>
+                `;
             });
 
             card.innerHTML = `<p>Q${index + 1}. ${q.text}</p>${optionsHTML}`;
@@ -264,7 +261,7 @@
                 document.getElementById('testSection').classList.add('hidden');
                 document.getElementById('thankYouSection').classList.add('hidden');
                 adminSec.classList.remove('hidden');
-                toggleBtn.innerText = 'Switch to Student View';
+                toggleBtn.innerText = 'Student View';
                 renderAdminDashboard();
             } else {
                 alert('Incorrect PIN!');
@@ -272,7 +269,7 @@
         } else {
             adminSec.classList.add('hidden');
             regSec.classList.remove('hidden');
-            toggleBtn.innerText = 'Switch to Admin Portal';
+            toggleBtn.innerText = 'Admin Portal';
         }
     }
 
@@ -288,7 +285,7 @@
                 <td>${sub.name}</td>
                 <td>Day ${sub.day}</td>
                 <td><strong>${sub.score} / ${questionsData.length}</strong></td>
-                <td><button class="btn btn-secondary" style="padding: 3px 8px; font-size: 0.8rem;" onclick="viewDetail(${idx})">View Answers</button></td>
+                <td><button class="btn btn-secondary" style="padding: 3px 8px; font-size: 0.8rem;" onclick="viewDetail(${idx})">View</button></td>
             `;
             tbody.appendChild(tr);
         });
@@ -320,10 +317,10 @@
     function updatePublishBtn() {
         const btn = document.getElementById('publishToggleBtn');
         if (isLeaderboardPublished) {
-            btn.innerText = 'Status: PUBLISHED (Visible to Students)';
+            btn.innerText = 'Status: PUBLISHED';
             btn.className = 'btn btn-success';
         } else {
-            btn.innerText = 'Status: HIDDEN (Admin Only)';
+            btn.innerText = 'Status: HIDDEN';
             btn.className = 'btn btn-secondary';
         }
     }
